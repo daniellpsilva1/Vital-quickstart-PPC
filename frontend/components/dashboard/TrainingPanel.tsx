@@ -18,13 +18,13 @@ const TrainingContent = ({
   velocityData
 }: {
   periodOptions: string[]
-  handleDateChange: (period: any) => void
+  handleDateChange: (period: "1w" | "1m" | "1y" | "2y" | "5y") => void
   trainingVolumeData: any
   velocityData: any
 }) => {
-  // @ts-ignore: Complex union type error
   return (
     <>
+      {/* @ts-ignore: Complex union type error */}
       <Heading size="md">Training Data from Strava</Heading>
       <HStack width={"100%"} justifyContent={"flex-end"}>
         <RadioButtons
@@ -132,7 +132,6 @@ export const TrainingPanel = ({ userId }: { userId: any }) => {
   const velocityData = getWeeklyAverageVelocity(workouts);
   const periodOptions = ["1w", "1m", "1y", "2y", "5y"];
 
-  // @ts-ignore: Complex union type error
   return (
     <VStack
       p="6"

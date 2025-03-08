@@ -1,4 +1,6 @@
-const API_URL = "http://0.0.0.0:8000";
+const API_URL = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+  ? "http://localhost:8000"
+  : process.env.NEXT_PUBLIC_API_URL || "https://vital-quickstart-ppc-backend.onrender.com";
 
 const BACKEND_IS_PYTHON = true;
 const URL_PREFIX = BACKEND_IS_PYTHON ? API_URL : "/api";
