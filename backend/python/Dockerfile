@@ -1,6 +1,6 @@
 # Use the official Python image.
 # https://hub.docker.com/_/python
-FROM python:3.10-slim
+FROM python:3.10
 
 # Install system dependencies required for Python package compilation
 RUN apt-get update && apt-get install -y \
@@ -13,23 +13,18 @@ RUN apt-get update && apt-get install -y \
 ENV APP_HOME /app
 WORKDIR /app
 
-# Copy application code
-COPY main.py .
-COPY .env .
+# Copy only the dependency files first to leverage Docker cache
+COPY pyproject.toml poetry.lock* ./
 
-# Upgrade pip and setuptools
-RUN python -m pip install --upgrade pip setuptools wheel
+# Install Poetry
+RUN pip install poetry==1.3.2
 
-# Install dependencies directly without using Poetry
-RUN pip install \
-    cffi==1.15.1 \
-    pycparser==2.21 \
-    cryptography==38.0.4 \
-    python-dotenv==0.20.0 \
-    fastapi==0.77.1 \
-    uvicorn==0.17.6 \
-    vital==1.1.22 \
-    --no-cache-dir
+# Install dependencies
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
+
+# Copy the rest of the application
+COPY . .
 
 EXPOSE 8000
 CMD exec uvicorn main:app --host 0.0.0.0 --port 8000

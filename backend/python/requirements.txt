@@ -1,7 +1,4 @@
-cffi==1.15.1
-pycparser==2.21
-cryptography==38.0.4
-python-dotenv==0.20.0
-fastapi==0.77.1
-uvicorn==0.17.6
-vital==1.1.22 
+# Poetry will handle dependencies through pyproject.toml
+# This file is included for compatibility with platforms
+# that expect a requirements.txt file
+. 

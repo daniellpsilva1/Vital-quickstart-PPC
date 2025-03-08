@@ -8,18 +8,11 @@ apt-get update && apt-get install -y \
     git \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip and setuptools
-pip install --upgrade pip setuptools wheel
+# Install Poetry
+pip install poetry==1.3.2
 
-# Install dependencies directly
-pip install \
-    cffi==1.15.1 \
-    pycparser==2.21 \
-    cryptography==38.0.4 \
-    python-dotenv==0.20.0 \
-    fastapi==0.77.1 \
-    uvicorn==0.17.6 \
-    vital==1.1.22 \
-    --no-cache-dir
+# Install project dependencies
+poetry config virtualenvs.create false
+poetry install --no-interaction --no-ansi
 
-echo "Build completed successfully" 
+echo "Build completed successfully with Poetry" 
