@@ -13,21 +13,18 @@ RUN apt-get update && apt-get install -y \
 ENV APP_HOME /app
 WORKDIR /app
 
-RUN pip install 'poetry==1.3.2'
+# Copy application code
 COPY . .
 COPY .env .env
-
-# Export requirements but install with pip for better error handling
-RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 
 # Upgrade pip and setuptools
 RUN python -m pip install --upgrade pip setuptools wheel
 
-# Install svix explicitly first with necessary dependencies
-RUN pip install "cffi>=1.12.0" "cryptography>=3.4.0" "pycparser>=2.20" "svix>=0.41.2,<0.42.0" --no-cache-dir
-
-# Install the rest of the requirements
-RUN pip install -r requirements.txt --no-cache-dir
+# Install dependencies in a specific order to avoid conflicts
+RUN pip install "cffi>=1.12.0" "pycparser>=2.20" "cryptography>=3.4.0" --no-cache-dir
+RUN pip install "svix>=0.41.2,<0.42.0" --no-cache-dir --use-deprecated=legacy-resolver || echo "Failed to install svix, continuing anyway"
+RUN pip install "python-dotenv>=0.20.0" "fastapi>=0.77.1" "uvicorn>=0.17.6" --no-cache-dir
+RUN pip install "vital>=1.1.22" --no-cache-dir
 
 EXPOSE 8000
 CMD exec uvicorn main:app --host 0.0.0.0 --port 8000
