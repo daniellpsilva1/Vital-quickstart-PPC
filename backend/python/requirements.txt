@@ -1,10 +1,7 @@
-setuptools>=65.5.1
-wheel>=0.38.0
-cffi>=1.12.0
-pycparser>=2.20
-cryptography>=3.4.0
-# svix is required by vital but we'll let vital handle its installation
-vital>=1.1.22
-fastapi>=0.77.1
-uvicorn>=0.17.6
-python-dotenv>=0.20.0 
+cffi==1.15.1
+pycparser==2.21
+cryptography==38.0.4
+python-dotenv==0.20.0
+fastapi==0.77.1
+uvicorn==0.17.6
+vital==1.1.22 
