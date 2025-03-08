@@ -24,7 +24,7 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 RUN python -m pip install --upgrade pip setuptools wheel
 
 # Install svix explicitly first with necessary dependencies
-RUN pip install "cffi>=1.12.0" "cryptography>=3.4.0" "pycparser>=2.20" "svix" --no-cache-dir
+RUN pip install "cffi>=1.12.0" "cryptography>=3.4.0" "pycparser>=2.20" "svix>=0.41.2,<0.42.0" --no-cache-dir
 
 # Install the rest of the requirements
 RUN pip install -r requirements.txt --no-cache-dir
